@@ -21,17 +21,17 @@ app.post('/posts', async (req, res) => {
     id, title
   };
 
-  await axios.post(eventBusEndpoint, {type:'PostCreated', data:posts[id]})
-  res.status(201).send(posts[id])
+  await axios.post(eventBusEndpoint, {type:'PostCreated', data:posts[id]});
+  res.status(201).send(posts[id]);
 });
 
 app.post('/events', (req, res) => {
-  const {type} = req.body
-  console.log(`receiving ${type} event`)
-  res.send({})
+  const {type} = req.body;
+  console.log(`receiving ${type} event`);
+  res.send({});
 })
 
 const port = 4000
 app.listen(port, () => {
-  console.log(`Listening on ${port}`)
+  console.log(`Listening on ${port}`);
 });
