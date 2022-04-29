@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const posts = {};
-const eventBusEndpoint = 'http://localhost:4005/events'
+const eventBusEndpoint = 'http://event-bus-srv:4005/events'
 app.get('/posts', (req, res) => {
   res.send(posts)
 });
@@ -21,7 +21,9 @@ app.post('/posts', async (req, res) => {
     id, title
   };
 
-  await axios.post(eventBusEndpoint, {type:'PostCreated', data:posts[id]});
+  await axios.post(eventBusEndpoint, {type:'PostCreated', data:posts[id]}).catch(err => {
+    console.log('failed to emmit PostCreated event', {err})
+  });
   res.status(201).send(posts[id]);
 });
 
@@ -33,5 +35,6 @@ app.post('/events', (req, res) => {
 
 const port = 4000
 app.listen(port, () => {
+  console.log('version 4');
   console.log(`Listening on ${port}`);
 });
